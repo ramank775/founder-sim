@@ -84,4 +84,4 @@ go run ./cmd/founder-sim-content ingest ./content -story story.txt -slug name   
 
 ## License
 
-MIT (add a LICENSE file before publishing).
+Code: **AGPL-3.0-only** (`LICENSE`), with an additional permission so plugins and bridged services that talk to the engine over its protocols can use any licence. Content under `content/`: **CC BY-SA 4.0** (`content/LICENSE`). Details and reasoning in [LICENSING.md](LICENSING.md).

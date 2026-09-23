@@ -1,5 +1,7 @@
 # Content
 
+Licensed CC BY-SA 4.0 (`content/LICENSE`), separately from the AGPL code; see `LICENSING.md` at the repo root.
+
 Everything the narrator is grounded on lives here, as data. The engine never embeds it; it loads this directory (development) or a compiled bundle (production) at startup. Change a fact, a scene or a probability, restart the server or rebuild the bundle, done. No Go involved.
 
 The story bible and research plan that this tree implements are in [docs/STORY_AND_RESEARCH.md](../docs/STORY_AND_RESEARCH.md).

@@ -2,6 +2,10 @@
 
 One contract, two transports. `plugin.Plugin` is the Go interface; this document is the same interface over HTTP+JSON so a plugin can be written in any language. Wire types are the JSON encoding of the Go types in `plugin/plugin.go` and `engine/delta.go`; those files are the source of truth and this page is derived from them.
 
+## Licence
+
+Programs that interact with Founder Sim only through this protocol are not derivative works of it and may be under any licence; see the additional permission in [LICENSING.md](../LICENSING.md). Plugins compiled into the binary are AGPL like the rest of the code.
+
 ## Principles
 
 1. **Request/response by value.** No callbacks, no shared memory. Assume a network in between, even for built-ins.

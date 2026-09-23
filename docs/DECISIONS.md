@@ -40,6 +40,8 @@ Running log of choices made while building. The spec (SPEC.md) says what the gam
 
 **Research agents.** Brief in `content/reports/AGENT_BRIEF.md`; §B5's seven runs as subagents (sonnet for gathering, opus for the reviewer). Only the incorporation run has been executed so far; the rest are on hold at Raman's request.
 
+**Licence: AGPL-3.0 for code, CC BY-SA 4.0 for content.** MIT was rejected because the content is the moat and the server will be hosted: AGPL keeps hosted forks open, share-alike keeps republished content open. An AGPL §7 additional permission exempts plugins and bridged services that only speak the protocols, so community plugins can use any licence. Sole copyright holder retains the option of a commercial licence later (needs a CLA before accepting large outside contributions).
+
 **UI: not three.js.** A text sim feels like a game through a single persistent screen, a visible clock, interruptions that arrive, paced narration and a diegetic frame (desk, phone, notebook), not 3D. Plan: add a JSON API beside the htmx pages and build the run screen as one "desk" view; 3D stays optional on top of that API.
 
 ## Open
