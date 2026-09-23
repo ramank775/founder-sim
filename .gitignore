@@ -1,0 +1,49 @@
+# --- Build outputs (binaries are built from source; never commit them) ---
+/founder-sim
+/founder-sim-bridge
+/founder-sim-content
+/notepad-plugin
+/bin/
+/dist/
+*.exe
+*.test
+*.out
+coverage.*
+
+# --- Runtime data: player accounts, runs, sessions, magic links, encrypted keys ---
+# Anything under a data dir is a live database of real people's play. Never commit.
+/data/
+/data-*/
+**/data/
+
+# --- Secrets and local config ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.token
+FOUNDER_SIM_MASTER_KEY*
+
+# --- Compiled content bundles: derived from content/, rebuilt by founder-sim-content build ---
+*.bundle.json
+
+# --- Raw founder stories: may contain personal details as spoken. ---
+# The normalised story (content/stories/<slug>.json) and the extracted records
+# are committed; the raw transcript stays local unless you deliberately add it
+# with `git add -f`.
+/content/stories/*.raw.md
+/content/stories/*.raw.txt
+
+# --- Scratch, editors, OS ---
+/tmp/
+*.tmp
+*.log
+*.swp
+*~
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace
+.claude/

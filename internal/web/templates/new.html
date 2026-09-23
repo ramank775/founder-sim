@@ -1,0 +1,41 @@
+{{template "head" .}}
+<h1>Before day zero</h1>
+{{if .Error}}<p class="err">{{.Error}}</p>{{end}}
+<form method="post" action="/new">
+<div class="card">
+  <label>Your current job and what a normal day looks like</label>
+  <textarea name="job" required placeholder="Backend engineer at a mid-size fintech in Bengaluru. Standups, tickets, one on-call week a month."></textarea>
+  <label>The idea</label>
+  <textarea name="idea" required placeholder="A tool that generates GST-compliant invoices for freelancers from a WhatsApp message."></textarea>
+  <label>Relative to this idea, are you technical? (Could you build the first version yourself?)</label>
+  <select name="technical"><option value="yes">Yes, I'd build it myself</option><option value="no">No, someone else would have to build it</option></select>
+</div>
+<div class="card">
+  <div class="row">
+    <div><label>Age</label><input type="number" name="age" min="18" max="70" required value="28"></div>
+    <div><label>Married?</label><select name="marital"><option>single</option><option>married</option><option>other</option></select></div>
+    <div><label>Kids</label><select name="kids"><option>none</option><option>expecting</option><option>one</option><option>two or more</option></select></div>
+  </div>
+  <label>Savings you could actually touch (₹)</label>
+  <input type="text" name="savings" required placeholder="6,00,000">
+  <label>Monthly obligations that don't pause (rent, EMIs, family)</label>
+  {{range $i := list 1 2 3 4}}
+  <div class="row"><input type="text" name="ob_label_{{$i}}" placeholder="label"><input type="text" name="ob_amount_{{$i}}" placeholder="₹ / month"></div>
+  {{end}}
+</div>
+<div class="card">
+  <label>Clock</label>
+  <select name="time_scale_ms">
+    <option value="3600000">1 in-game day = 1 real hour (default; the clock runs while you're away)</option>
+    <option value="600000">1 day = 10 minutes</option>
+    <option value="60000">1 day = 1 minute</option>
+    <option value="10000">1 day = 10 seconds (dev)</option>
+  </select>
+  {{if .Plugins}}
+  <label>Tools you want in this run (optional; using them is your choice)</label>
+  {{range .Plugins}}<p><label style="display:inline"><input type="checkbox" name="plugins" value="{{.Name}}"> <b>{{.Name}}</b> <span class="muted">{{.Description}}</span></label></p>{{end}}
+  {{end}}
+</div>
+<p><button type="submit">Start</button></p>
+</form>
+{{template "foot" .}}

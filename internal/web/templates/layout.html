@@ -1,0 +1,54 @@
+{{define "head"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Founder Sim</title>
+<script src="https://unpkg.com/htmx.org@2.0.4" crossorigin="anonymous"></script>
+<style>
+:root { --bg:#faf8f3; --ink:#1e1c19; --muted:#7a746b; --line:#e2ddd3; --accent:#8a3b12; --panel:#fffdf9; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161513; --ink:#ebe6dc; --muted:#8f887c; --line:#2d2a25; --accent:#e08a4f; --panel:#1e1c19; } }
+* { box-sizing:border-box }
+body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Georgia, "Times New Roman", serif; }
+main { max-width:760px; margin:0 auto; padding:24px 16px 80px; }
+header { display:flex; justify-content:space-between; align-items:baseline; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:20px; }
+header a { color:var(--ink); text-decoration:none }
+header .brand { font-weight:bold; letter-spacing:.02em }
+nav a { margin-left:14px; color:var(--muted); font-size:14px }
+h1,h2,h3 { font-weight:normal; margin:1.2em 0 .4em }
+.muted { color:var(--muted) }
+.small { font-size:14px }
+label { display:block; margin:12px 0 4px; font-size:14px; color:var(--muted) }
+input[type=text], input[type=number], input[type=email], input[type=password], textarea, select {
+  width:100%; padding:8px 10px; font:inherit; background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:4px; }
+textarea { min-height:80px }
+button { font:inherit; padding:8px 14px; background:var(--accent); color:#fff; border:0; border-radius:4px; cursor:pointer }
+button.ghost { background:transparent; color:var(--accent); border:1px solid var(--line); padding:4px 10px; font-size:14px }
+.row { display:flex; gap:12px } .row > * { flex:1 }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:14px 16px; margin:12px 0 }
+.log .entry { margin:0 0 18px } .log .day { font-size:12px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase }
+.log .event { border-left:3px solid var(--accent); padding-left:12px }
+.log .system { color:var(--muted); font-style:italic }
+.log p { margin:.3em 0 }
+.todos li { margin:4px 0 } .todos form { display:inline }
+.err { color:#b3261e; background:rgba(179,38,30,.08); padding:8px 12px; border-radius:4px }
+.pins { font-size:14px; color:var(--muted) } .pins b { color:var(--ink) }
+.htmx-request .spinner { display:inline } .spinner { display:none }
+details summary { cursor:pointer; color:var(--muted); font-size:14px }
+pre { white-space:pre-wrap; font-size:12px; background:var(--panel); padding:8px; border:1px solid var(--line) }
+.panel { margin-top:10px }
+</style>
+</head>
+<body><main>
+<header>
+  <a class="brand" href="/">Founder Sim</a>
+  <nav>
+    {{if .Player}}<a href="/new">New run</a><a href="/settings">Model</a>
+    <form method="post" action="/logout" style="display:inline"><button class="ghost" type="submit">Log out</button></form>{{end}}
+  </nav>
+</header>
+{{end}}
+
+{{define "foot"}}
+</main></body></html>
+{{end}}

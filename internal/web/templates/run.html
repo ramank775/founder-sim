@@ -1,0 +1,43 @@
+{{template "head" .}}
+<h2 class="muted small" style="margin-top:0">{{.Run.Player.Idea}}</h2>
+
+{{template "frag_turn.html" .}}
+
+{{if eq .Run.Status "active"}}
+<form hx-post="/run/{{.Run.ID}}/act" hx-target="#game" hx-swap="outerHTML" hx-indicator="#act-form" id="act-form" class="card">
+  <label>What do you do?</label>
+  <textarea name="action" required placeholder="Message two agencies for a quote. / Tell my father about it over dinner. / Look up what a payment gateway needs."></textarea>
+  <p><button type="submit">Do it</button> <span class="spinner muted small">the day passes…</span></p>
+</form>
+
+{{range .Tools}}
+<div class="card">
+  <div class="small muted">{{.Spec.Title}} <span class="muted">· {{.Spec.Description}}</span></div>
+  <form hx-post="/run/{{$.Run.ID}}/tool/{{.Plugin}}/{{.Spec.Name}}" hx-target="#panel-{{.Plugin}}-{{.Spec.Name}}" hx-swap="outerHTML"
+        hx-trigger="load, submit" class="row">
+    <input type="text" name="input" placeholder="…">
+    <button class="ghost" type="submit">go</button>
+  </form>
+  <div class="panel" id="panel-{{.Plugin}}-{{.Spec.Name}}"></div>
+</div>
+{{end}}
+
+<details class="card"><summary>End this run</summary>
+  <form method="post" action="/run/{{.Run.ID}}/exit">
+    <label>How</label>
+    <select name="kind"><option value="walked_away">Walk away</option><option value="shutdown">Shut it down</option><option value="sold">Sell it</option></select>
+    <label>Note to yourself</label>
+    <input type="text" name="note">
+    <p><button type="submit">End the run</button></p>
+    <p class="small muted">Only you can end it. There is no game over.</p>
+  </form>
+</details>
+{{else}}
+<div class="card">
+  <h3>Run over</h3>
+  <p>You {{.Run.Exit.Type}} on day {{.Run.Exit.Day}} with {{rupees .Run.Exit.Money}}.{{if .Run.Exit.Note}} "{{.Run.Exit.Note}}"{{end}}</p>
+  {{if .View.KnownRisks}}<p class="small muted">Things you now know exist: {{range .View.KnownRisks}}{{.}}; {{end}}</p>{{end}}
+</div>
+{{end}}
+{{if .Dev}}<p class="small"><a href="/run/{{.Run.ID}}/dev">raw state</a></p>{{end}}
+{{template "foot" .}}

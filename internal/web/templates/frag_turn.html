@@ -1,0 +1,54 @@
+<div id="game">
+  <div id="turn-error"></div>
+  {{if .ShowBalance}}
+  <p class="card">Balance: <b>{{rupees .Balance}}</b>{{if .BalanceCost}} <span class="muted small">(that took a slot)</span>{{end}}</p>
+  {{end}}
+  {{with .Turn}}{{if .Reports}}
+  <div class="card small muted">
+    {{range .Reports}}{{if or .Fired .Risks .Missed .Bills}}<div><b>Day {{.Day}}</b>
+      {{range .Fired}}· {{.Description}} {{end}}
+      {{range .Risks}}· something surfaced {{end}}
+      {{range .Missed}}· {{.What}} came back {{end}}
+      {{if .Bills}}· obligations {{rupees .Bills}} went out{{end}}
+    </div>{{end}}{{end}}
+  </div>
+  {{end}}{{end}}
+
+  <div class="log">
+    {{range .Log}}
+    <div class="entry {{.Kind}}">
+      <div class="day">Day {{.Day}}{{if and .Source (ne .Kind "narration")}} · {{.Source}}{{end}}</div>
+      {{if eq .Kind "narration"}}{{nl2p .Text}}{{else}}<p>{{.Text}}</p>{{end}}
+    </div>
+    {{end}}
+  </div>
+
+  {{if .View.Todos}}
+  <div class="card">
+    <div class="small muted">Things that came up</div>
+    <ul class="todos">
+    {{range .View.Todos}}
+      <li>{{.Text}}
+        <form hx-post="/run/{{$.Run.ID}}/todo/{{.ID}}/done" hx-target="#game" hx-swap="outerHTML"><button class="ghost" type="submit">done</button></form>
+        <form hx-post="/run/{{$.Run.ID}}/todo/{{.ID}}/dismiss" hx-target="#game" hx-swap="outerHTML"><button class="ghost" type="submit">ignore</button></form>
+      </li>
+    {{end}}
+    </ul>
+  </div>
+  {{end}}
+
+  <p class="pins">Day <b>{{.View.Day}}</b> · slots left <b>{{.View.SlotsLeft}}</b>
+    {{if .View.Money}}· money <b>{{rupees (deref .View.Money)}}</b>
+      <form style="display:inline" hx-post="/run/{{.Run.ID}}/pin" hx-target="#game" hx-swap="outerHTML"><input type="hidden" name="unpin" value="1"><button class="ghost" type="submit">unpin</button></form>
+    {{else}}
+      <form style="display:inline" hx-post="/run/{{.Run.ID}}/balance" hx-target="#game" hx-swap="outerHTML"><button class="ghost" type="submit">check balance</button></form>
+      <form style="display:inline" hx-post="/run/{{.Run.ID}}/pin" hx-target="#game" hx-swap="outerHTML"><button class="ghost" type="submit">pin money</button></form>
+    {{end}}
+    {{range $k, $v := .View.PinnedMetrics}}· {{$k}} <b>{{$v}}</b>{{end}}
+    {{if .View.Entity.Incorporated}}· {{.View.Entity.Type}}{{end}}{{if .View.Entity.GSTIN}} · GSTIN{{end}}
+  </p>
+
+  {{if and .Dev .Turn}}<details><summary>raw model output</summary><pre>{{.Turn.Raw}}</pre>
+    {{if .Turn.Result.Rejected}}<pre>rejected: {{range .Turn.Result.Rejected}}{{.What}}: {{.Reason}}
+{{end}}</pre>{{end}}</details>{{end}}
+</div>

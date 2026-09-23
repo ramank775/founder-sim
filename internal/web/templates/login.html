@@ -1,0 +1,18 @@
+{{template "head" .}}
+<h1>Founder Sim</h1>
+<p class="muted">A text simulation of the first months of starting a company in India. Nobody tells you what to do. Nothing is graded. Time keeps running while you're away.</p>
+{{if .Error}}<p class="err">{{.Error}}</p>{{end}}
+{{if .Sent}}
+  <div class="card">
+    <p>Check your email for a login link.</p>
+    {{if .Link}}<p class="small muted">Dev mode: <a href="{{.Link}}">{{.Link}}</a></p>{{end}}
+  </div>
+{{else}}
+  <form method="post" action="/login" class="card">
+    <label for="email">Email</label>
+    <input id="email" type="email" name="email" required autocomplete="email" placeholder="you@example.com">
+    <p><button type="submit">Send me a login link</button></p>
+    <p class="small muted">No password. The link works once and expires in 15 minutes.</p>
+  </form>
+{{end}}
+{{template "foot" .}}

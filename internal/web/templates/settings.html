@@ -1,0 +1,31 @@
+{{template "head" .}}
+<h1>Model</h1>
+<p class="muted">Any OpenAI-compatible chat endpoint: OpenAI, OpenRouter, a LiteLLM proxy, vLLM. The key is encrypted at rest and only ever sent to the endpoint you give here. For a model on your own machine, use the bridge below and set the base URL to <code>bridge://llm</code>.</p>
+{{if .Message}}<p class="card">{{.Message}}</p>{{end}}
+<form method="post" action="/settings" class="card">
+  <label>Base URL</label>
+  <input type="text" name="base_url" value="{{.Player.LLMBaseURL}}" placeholder="https://api.openai.com/v1  or  bridge://llm" required>
+  <label>Model</label>
+  <input type="text" name="model" value="{{.Player.LLMModel}}" placeholder="gpt-4o-mini / llama3.1 / anthropic/claude-sonnet-4" required>
+  <label>API key {{if .HasKey}}<span class="muted">(saved; leave blank to keep)</span>{{end}}</label>
+  <input type="password" name="api_key" autocomplete="off" placeholder="{{if .HasKey}}••••••••{{else}}sk-... (not needed for bridge://){{end}}">
+  <p><label style="display:inline"><input type="checkbox" name="probe" value="1" checked> Test the endpoint on save</label></p>
+  <p><button type="submit">Save</button></p>
+</form>
+
+<h2>Bridge to your machine</h2>
+<p class="muted">The bridge is a separate small program you run on your computer. It dials out to this server and forwards requests to services only you can reach: a local model today, a plugin you're building tomorrow. Nothing on your machine is exposed to the internet.</p>
+<div class="card">
+  {{if .Player.BridgeToken}}
+    <p>Status: {{if .BridgeConnected}}<b>connected</b>{{else}}<span class="muted">not connected</span>{{end}}</p>
+    <label>Run this on your machine</label>
+    <pre>founder-sim-bridge -server {{.BaseURL}} -token {{.Player.BridgeToken}} \
+  -service llm=http://localhost:11434/v1</pre>
+    <p class="small muted">Add more <code>-service name=url</code> flags to expose other local services. Then set Base URL above to <code>bridge://llm</code>.</p>
+    <form method="post" action="/settings/bridge-token" style="display:inline"><button class="ghost" type="submit">Rotate token</button></form>
+    <form method="post" action="/settings/bridge-token" style="display:inline"><input type="hidden" name="revoke" value="1"><button class="ghost" type="submit">Revoke</button></form>
+  {{else}}
+    <form method="post" action="/settings/bridge-token"><button type="submit">Create a bridge token</button></form>
+  {{end}}
+</div>
+{{template "foot" .}}

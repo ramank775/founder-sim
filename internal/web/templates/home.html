@@ -1,0 +1,11 @@
+{{template "head" .}}
+<h1>Runs</h1>
+{{if .NeedsLLM}}<p class="err">First, <a href="/settings">point the game at a model</a>. Your key, your inference.</p>{{end}}
+{{if not .Runs}}<p class="muted">No runs yet. <a href="/new">Start one.</a></p>{{end}}
+{{range .Runs}}
+<div class="card">
+  <a href="/run/{{.ID}}"><b>{{.Idea}}</b></a>
+  <div class="small muted">Day {{.Day}} · {{.Status}}</div>
+</div>
+{{end}}
+{{template "foot" .}}
